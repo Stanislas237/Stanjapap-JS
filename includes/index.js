@@ -1,162 +1,185 @@
-// import { data } from './database.js'
+import { data, event_t } from './database.js'
 
-let data = {
-    "messages" : [
-        {
-            "id" : 1,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:31",
-            "date" : "17/12/2023",
-            "contenu" : "Bonjour admin je suis nouveau..",
-            "vu" : true,
-            "tag" : 0
-        },
-        {
-            "id" : 2,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:32",
-            "date" : "17/12/2023",
-            "contenu" : "Comment allez-vous ?",
-            "vu" : true,
-            "tag" : 0
-        },
-        {
-            "id" : 3,
-            "id_sender" : 1,
-            "id_receiver" : 2,
-            "heure" : "21:32",
-            "date" : "17/12/2023",
-            "contenu" : "Je vais bien et vous ?",
-            "vu" : true,
-            "tag" : 2
-        },
-        {
-            "id" : 4,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:35",
-            "date" : "17/12/2023",
-            "contenu" : "Super 😁",
-            "vu" : true,
-            "tag" : 3
-        }
-    ],
-    "users" : [
-        {
-            "id" : 1,
-            "pseudo" : "Admin",
-            "pass" : "Admin",
-            "id_ami" : [2, 3],
-            "last_id" : 3,
-            "profil" : "assets/profiles/1.png"
-        },
-        {
-            "id" : 2,
-            "pseudo" : "Stan_Kamga",
-            "pass" : "Stan_Kamga",
-            "id_ami" : [1],
-            "last_id" : 3,
-            "profil" : "assets/profiles/2.png"
-        },
-        {
-            "id" : 3,
-            "pseudo" : "Hernandez",
-            "pass" : "Hdz",
-            "id_ami" : [1],
-            "last_id" : 0,
-            "profil" : "assets/profiles/3.png"
-        }
-    ]
-}
+//Useless
+// let data = {
+//     "messages" : [
+//         {
+//             "id" : 1,
+//             "id_sender" : 2,
+//             "id_receiver" : 1,
+//             "heure" : "21:31",
+//             "date" : "17/12/2023",
+//             "contenu" : "Bonjour admin je suis nouveau..",
+//             "vu" : true,
+//             "tag" : 0
+//         },
+//         {
+//             "id" : 2,
+//             "id_sender" : 2,
+//             "id_receiver" : 1,
+//             "heure" : "21:32",
+//             "date" : "17/12/2023",
+//             "contenu" : "Comment allez-vous ?",
+//             "vu" : true,
+//             "tag" : 0
+//         },
+//         {
+//             "id" : 3,
+//             "id_sender" : 1,
+//             "id_receiver" : 2,
+//             "heure" : "21:32",
+//             "date" : "17/12/2023",
+//             "contenu" : "Je vais bien et vous ?",
+//             "vu" : true,
+//             "tag" : 2
+//         },
+//         {
+//             "id" : 4,
+//             "id_sender" : 2,
+//             "id_receiver" : 1,
+//             "heure" : "21:35",
+//             "date" : "17/12/2023",
+//             "contenu" : "Super 😁",
+//             "vu" : true,
+//             "tag" : 3
+//         }
+//     ],
+//     "users" : [
+//         {
+//             "id" : 1,
+//             "pseudo" : "Admin",
+//             "pass" : "wcIksDzZvHtqhtd/XazkAZF2bEhc1V3EjK+ayHMzXW8=",
+//             "id_ami" : [2, 3],
+//             "last_id" : 3,
+//             "profil" : "assets/profiles/1.png"
+//         },
+//         {
+//             "id" : 2,
+//             "pseudo" : "Stan_Kamga",
+//             "pass" : "ljSub8TKdW9/1/4iACrEw8sBJ6iIpsLwZqpvPRKe8gc=",
+//             "id_ami" : [1],
+//             "last_id" : 3,
+//             "profil" : "assets/profiles/2.png"
+//         },
+//         {
+//             "id" : 3,
+//             "pseudo" : "Hernandez",
+//             "pass" : "fdM+Tr8yfudubde/nvEmAVKhHlxNgru1CQm9DtuLeng=",
+//             "id_ami" : [1],
+//             "last_id" : 0,
+//             "profil" : "assets/profiles/3.png"
+//         }
+//     ]
+// }
 
-let datas
-let errors
-let user_id
-let receiver
-let tag
-let left_style = "block"
-let right_style = "none"
-
-const brands = document.querySelectorAll('.brand')
-
-//Redirection de l'utilisateur
-function redirect(){
-    if (localStorage.hasOwnProperty('STANJAPAP_Essentials')) user_id = localStorage.getItem('STANJAPAP_Essentials')
-    else {
-        let ref = window.location.href.split('/')
-        ref.pop()
-        window.location.href = ref.join('/') + '/login.html'
-    }
-}
-
-
-//Mise en forme de la page
-function display(){
-    //Affichage des amis
-    ShowFriends()
+let index = 0
+{ 
+    let datas
+    let user_id
+    let user
+    let receiver
+    let tag
+    let left_style = "block"
+    let right_style = "none"
     
-    //Affichage des noms et tags
-    brands[0].innerHTML = user["pseudo"]
-    if (receiver && tag){
-        const message = datas["messages"].find(message => message["id"] == tag)
-        document.querySelector('#sender').textContent = (message['id_sender'] == user_id) ? "Vous" : receiver["pseudo"]
-        document.querySelector('#tag').textContent = message['contenu']
+    const brands = document.querySelectorAll('.brand')
+    
+    //Redirection de l'utilisateur
+    function index_(test='a'){
+        let forms = document.querySelectorAll("form")
+        if (typeof test === "boolean")
+        {
+            index = 0
+            forms[0].style.display = test ? 'flex' : 'none'
+            forms[1].style.display = test ? 'none' : 'block'
+            forms[2].style.display = 'none'
+            if (test){
+                user_id = localStorage.getItem('STANJAPAP_Essentials')
+                user = data["users"].find(item => item["id"] == user_id)
+            }
+        }else{
+            index = 1
+            forms[0].style.display = 'none'
+            forms[1].style.display = 'none'
+            forms[2].style.display = 'block'
+        }
+    }    
+    
+    //Mise en forme de la page
+    function display(){
+        //Chercher les données de la base de données
+        datas = data
+    
+        //Affichage des amis
+        ShowFriends()
+        
+        //Affichage des noms et tags
+        brands[0].innerHTML = user["pseudo"]
+        if (receiver && tag){
+            const message = datas["messages"].find(message => message["id"] == tag)
+            document.querySelector('#sender').textContent = (message['id_sender'] == user_id) ? "Vous" : receiver["pseudo"]
+            document.querySelector('#tag').innerHTML = message['contenu']
+        }
+        brands[1].innerHTML = receiver ? receiver["pseudo"] : ""
+        document.querySelector('.tagzone').style.display = tag ? 'flex' : 'none'
+        document.querySelector('.message').style.display = receiver ? 'flex' : 'none'
     }
-    brands[1].innerHTML = receiver ? receiver["pseudo"] : ""
-    document.querySelector('.tagzone').style.display = tag ? 'flex' : 'none'
-    document.querySelector('.message').style.display = receiver ? 'flex' : 'none'
-}
-
-function LoadData(){
-    datas = data
-}
-function SaveData(){
-    data = datas
-}
-
-//Fonction pour l'affichage sur ordinateur
-function Desktop(test){
-    document.querySelector('#left').style.display = test ? left_style : "block"
-    document.querySelector('#right').style.display = test ? right_style : "flex"
-}
-
-function ShowFriends(){
-    let left = document.querySelector('#left').lastElementChild
-    left.innerHTML = ''
-    datas['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
-        let friend = document.createElement('div')
-        let div = document.createElement('div')
-        let img = document.createElement('img')
-
-        friend.classList.add('disc')
-        div.classList.add('contact')
-        div.addEventListener('click', () => {
-            receiver = item
-            display()
-            ShowMessages()
+    
+    //Fonction pour l'affichage sur ordinateur
+    function Desktop(test){
+        document.querySelector('#left').style.display = test ? left_style : "block"
+        document.querySelector('#right').style.display = test ? right_style : "flex"
+    }
+    
+    function ShowFriends(){
+        let left = document.querySelector('#left').lastElementChild
+        left.innerHTML = ''
+        datas['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
+            let friend = document.createElement('div')
+            let div = document.createElement('div')
+            let img = document.createElement('img')
+    
+            friend.classList.add('disc')
+            div.classList.add('contact')
+            div.addEventListener('click', () => {
+                receiver = item
+                display()
+                ShowMessages()
+            })
+            img.setAttribute('src', item['profil'])
+    
+            friend.appendChild(div)
+            div.appendChild(img)
+            div.innerHTML+= item['id'] == user_id ? "Vous" : item['pseudo']
+            left.appendChild(friend)
+            left.appendChild(document.createElement('hr'))
         })
-        img.setAttribute('src', item['profil'])
-
-        friend.appendChild(div)
-        div.appendChild(img)
-        div.innerHTML+= item['pseudo']
-        left.appendChild(friend)
-        left.appendChild(document.createElement('hr'))
-    })
-}
-
-function ShowMessages(){
-    // datas["messages"].addEventListener('change', () => {
+    }
+    
+    function htmlspecialchars(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+    
+    function ShowMessages(){
+        //Chercher les données de la base de données
+        datas = data
+    
+        //Display de l'écran
         left_style = "none"
         right_style = "flex"
         Desktop(mediaStyle.matches)
+    
+        //Affichage des messages
         let id_table = [user['id'], receiver['id']]
         let message = `<br><div class='warning' align='center'><div>Vos messages sont cryptés de bout en bout.<p>Profitez de notre espace pour converser avec vos proches.</p></div></div><br>`
         let date
         let del_message = `<p style='color:purple; font-family:"Bradley Hand ITC"; font-style:italic; font-weight:bold'>Ce message a été supprimé..</p>`
-
+    
         datas["messages"].filter(item => id_table.includes(item['id_receiver']) && id_table.includes(item['id_sender'])).forEach(item =>{
             if (!date || date != item['date']){
                 date = item['date']
@@ -165,7 +188,7 @@ function ShowMessages(){
             message += `<div style='float:right'><div class=${item['id_sender'] == user['id'] ? 'me' : 'you'}>`
             if (item['tag'] > 0){
                 let messageTag = datas["messages"].find(a => a['id'] == item['tag'])
-                message += `<a href='#${item['tag']}'  name='${item['tag']}' class='links'><div class="tag"><div class="tagcontent"><div class="sender">${messageTag['id_sender'] == user['id'] ? 'Vous' : receiver['pseudo']}</div><div class='text'>${messageTag['contenu']}</div></div></div></a><br>`
+                message += `<a href='#${item['tag']}' name='${item['tag']}' class='links'><div class="tag"><div class="tagcontent"><div class="sender">${messageTag['id_sender'] == user['id'] ? 'Vous' : receiver['pseudo']}</div><div class='text'>${messageTag['contenu']}</div></div></div></a><br>`
             }
             message += `<div id='${item['id']}' class='last ${item['contenu'] != del_message ? 'bodymessage' : ''}'>${item['contenu']}<br><br><div class='heure last'>${item['heure']}`
             if (item['id_sender'] == user['id'] && item['contenu'] != del_message){
@@ -173,13 +196,17 @@ function ShowMessages(){
             }
             message += `</div></div></div></div><br>`
         })
-
-        document.querySelector("#messages").innerHTML = message
+    
+        //Ajout des événements
+        let messageZone = document.querySelector("#messages")
+        messageZone.innerHTML = message
+        messageZone.scrollTop = messageZone.scrollHeight
         document.querySelectorAll('.links').forEach(elt=>{
             elt.addEventListener("click", () =>{
                 let target = document.getElementById(elt.name).parentElement
                 let color = target.style.backgroundColor
                 target.style.background = 'rgb(100, 200, 255)'
+                setTimeout(() => messageZone.scrollTop -= 50, 10)
                 setTimeout(() => target.style.background = color, 300)
             })
         })
@@ -197,122 +224,214 @@ function ShowMessages(){
             elt.addEventListener("click", (e) =>{
                 e.preventDefault()
                 let id = +elt.parentElement.parentElement.id
-                let message = datas["messages"].find(item => item['id'] == id)
+                let message = data["messages"].find(item => item['id'] == id)
                 message['contenu'] = del_message
                 message['tag'] = 0
+                datas = data
+                event_t.dispatchEvent(new Event('change'))
                 ShowMessages()
             })
         })
-
+    
         display()
-    // })
-}
-
-function format(nbre){
-    return nbre > 9 ? ""+nbre : "0" + nbre
-}
-
-//Code
-document.querySelector('#exitlink').addEventListener('click', (e)=>{
-    e.preventDefault()
-    tag = undefined
-    display()
-})
-document.querySelector('.back').addEventListener('click', (e)=>{
-    e.preventDefault()
-    left_style = "block"
-    right_style = "none"
-    receiver = null
-    document.querySelector("#messages").innerHTML = ""
-    Desktop(mediaStyle.matches)
-    display()
-})
-document.querySelector('#send').addEventListener('click', (e)=>{
-    e.preventDefault()
-    let date = new Date()
-    let message = document.querySelector('#text').value
-    if (receiver && message.trim().length > 0) {
-        data['messages'].push({
-            "id" : datas["messages"].length + 1,
-            "id_sender" : user['id'],
-            "id_receiver" : receiver['id'],
-            "contenu" : message,
-            "date" : `${format(date.getDate())}/${format(date.getMonth()+1)}/${date.getFullYear()}`,
-            "heure" : `${format(date.getHours())}:${format(date.getMinutes())}`,
-            "vu" : false,
-            "tag" : tag ? +tag : 0
-        })
-        document.querySelector('#text').value = ""
-        tag = undefined
-        ShowMessages()
     }
-})
+    
+    //Formater la date et l'heure
+    function format(nbre){
+        return nbre > 9 ? ""+nbre : "0" + nbre
+    }
+    
+    
+    
+    
+    //********************************************Code*****************************************************
+    //Affichage de la page
+    const mediaStyle = window.matchMedia("(max-width: 800px)")
+    index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+    document.querySelector('.nav-link-logout').addEventListener('click', () => {
+        displayLogin(true)
+        localStorage.removeItem('STANJAPAP_Essentials')
+        index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+        window.location.reload()
+    })
+    document.querySelector('#newd').addEventListener('click', () => {
+        index_()
+    })
+    document.querySelector('#btn2').addEventListener('click', () => {
+        let pseudo = htmlspecialchars(document.querySelector('#pseudo').value.trim())
+        let result = check_if_exists(pseudo)
+        if (!result) return
+        if (user["id_ami"].includes(result["id"])) {
+            displayerror("Vous avez déjà une discussion avec cet utilisateur")
+            return
+        }
+        user["id_ami"].push(result["id"])
+        if (receiver) ShowMessages()
+        else display()
+        document.querySelector('#pseudo').value = ''
+        index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+    })
+    document.querySelector('#discussions').addEventListener('click', () => {
+        index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+    })
+
+    if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+    { 
+        //Accès aux données des utilisateurs
+        datas = data
+        const user = datas["users"].find(user => user["id"] == user_id)
+        
+        //Adaptation de la page à la taille de l'écran
+        Desktop(mediaStyle.matches)
+        mediaStyle.addEventListener("change", () =>{
+            Desktop(mediaStyle.matches)
+        })
+        
+        //Ajout des événements
+        document.querySelector('#exitlink').addEventListener('click', (e)=>{
+            e.preventDefault()
+            tag = undefined
+            display()
+        })
+        document.querySelector('.back').addEventListener('click', (e)=>{
+            e.preventDefault()
+            left_style = "block"
+            right_style = "none"
+            receiver = null
+            document.querySelector("#messages").innerHTML = ""
+            Desktop(mediaStyle.matches)
+            display()
+        })
+        document.querySelector('#send').addEventListener('click', (e)=>{
+            e.preventDefault()
+            let date = new Date()
+            let message = htmlspecialchars(document.querySelector('#text').value.trim())
+            if (receiver && message.length > 0) {
+                data['messages'].push({
+                    "id" : datas["messages"].length + 1,
+                    "id_sender" : user['id'],
+                    "id_receiver" : receiver['id'],
+                    "contenu" : message,
+                    "date" : `${format(date.getDate())}/${format(date.getMonth()+1)}/${date.getFullYear()}`,
+                    "heure" : `${format(date.getHours())}:${format(date.getMinutes())}`,
+                    "vu" : false,
+                    "tag" : tag ? +tag : 0
+                })
+                event_t.dispatchEvent(new Event('change'))
+                document.querySelector('#text').value = ""
+                tag = undefined
+                ShowMessages()
+            }
+        })
+        event_t.addEventListener('change', ShowMessages)
+        
+        //Début
+        display()
+    }
+} //index.js
 
 
+{
+    const errors = document.querySelectorAll('.err')
+    let login = true
+    displayLogin(login)
+    
+    function displayLogin(test) {
+        login = test
+        document.querySelector('#btn').value = test ? "Se connecter" : "S'inscrire"
+        document.querySelector('#placeholder').innerHTML = test ? `Je n'ai pas de compte, <input type="button" id="lien_i" value="s'inscrire">` : `J'ai déjà un compte, <input type="button" id="lien_i" value="se connecter">`
+        document.querySelector('#lien_i').addEventListener('click', (e) => {
+            e.preventDefault()
+            login =!login
+            displayLogin(login)
+        })
+    }
 
+    function displayerror(err) {
+        errors[index].textContent = err + '\n'
+        errors[index].style.display = "block"
+        setTimeout(()=>errors[index].style.display = "none", 3000)
+    }
 
+    function reset_form() {
+        document.querySelector('#ps_input').value = ""
+        document.querySelector('#pw_input').value = ""
+        errors[index].textContent = ''
+    }
 
+    async function hashPassword(pass) {
+        const data = new TextEncoder().encode(pass)
+        const hash = await window.crypto.subtle.digest('SHA-256', data)
+        return btoa(String.fromCharCode(...new Uint8Array(hash)))
+    }
+    
+    async function verify(pass, dbpass){
+        hash = await hashPassword(pass)
+        if (hash !== dbpass) {
+            displayerror('Mauvais mot de passe')
+            return false
+        }else return true
+    }
 
+    function check_if_exists(name){
+        let result = data['users'].find(elt => elt['pseudo'] === name)
+        if (!result) {
+            displayerror('Cet utilisateur n\'existe pas')
+            return false
+        }else{
+            if (!login) displayerror('Cet utilisateur existe déjà')
+            return result
+        }
+    }
 
+    async function login_or_signup() {
+        let pseudo = htmlspecialchars(document.querySelector('#ps_input').value)
+        let passw = htmlspecialchars(document.querySelector('#pw_input').value)
+        if (!(pseudo && passw)) {
+            displayerror("Remplissez tous les champs.")
+            return
+        }
+        if (pseudo.length < 3 || pseudo.length > 15) {
+            displayerror("Votre pseudo doit être compris entre 3 et 15 caractères.")
+            return
+        }
+        if (passw.length < 5 || passw.length > 10) {
+            displayerror("Votre mot de passe doit être compris entre 5 et 10 caractères.")
+            return
+        }
+        login ? await log_in(pseudo, passw) : await signup(pseudo, passw)
+    }
 
+    async function log_in(name, pass) {
+        let user
+        if (!(user = check_if_exists(name))) return
+        if (await verify(pass, user['pass'])){
+            reset_form()
+            localStorage.setItem('STANJAPAP_Essentials', user['id'].toString())
+            index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+            display()
+        }
+    }
+    async function signup(name, pass) {
+        if (check_if_exists(name)) return
+        let password
+        if (!(password = await hashPassword(pass))) return
+        data['users'].push({
+            "id" : data["users"].length + 1,
+            "pseudo" : name,
+            "pass" : password,
+            "id_ami" : [],
+            "last_id" : 0,
+            "profil" : `assets/profiles/Nopicture.png`
+        })
+        reset_form()
+        localStorage.setItem('STANJAPAP_Essentials', (data["users"].length).toString())
+        index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
+        display()
+    }
 
-
-
-
-
-
-// var a = document.getElementById("messages");
-// var id = window.location.href.split("=");
-// window.addEventListener("beforeunload", currentM());
-
-// refresh();
-// setInterval(() => {
-//     refresh();
-// }, 1000);
-
-// function refresh() {
-//     var xhr = new XMLHttpRequest();
-//     xhr.open("GET", "actions/messages/showmessagesAction.php?id="+id, false);
-//     xhr.onload = () => {
-//     if (xhr.readyState === xhr.DONE) {
-//         if (xhr.status === 200) {
-//             a.innerHTML = xhr.response;
-//         }
-//     }};
-//     xhr.send(null);
-
-//     var links = document.getElementsByClassName("liens");
-//     var link = window.location.href.split("#");
-//     link = link[0].split("&");
-
-//     for (i = 0; i < links.length; i++) {
-//         id2 = links[i].href.split("/");
-//         links[i].href = link[0] + "&tag=" + id2[id2.length-1] + "&scroll=" + a.scrollTop;
-//     }
-
-//     if(document.getElementById("exitlink")){
-//         document.getElementById("exitlink").href = link[0] + "&scroll=" + a.scrollTop;
-//     }
-// }
-
-// function currentM(){
-//     var xhr = new XMLHttpRequest();
-//     xhr.open("GET", "currenttextmessage.php?m="+document.getElementById("text").value, false);
-//     xhr.send(null);
-// }
-
-
-LoadData()
-redirect()
-const user = datas["users"].find(user => user["id"] == user_id)
-//Accès aux données des utilisateurs
-
-const mediaStyle = window.matchMedia("(max-width: 800px)")
-Desktop(mediaStyle.matches)
-mediaStyle.addEventListener("change", () =>{
-    Desktop(mediaStyle.matches)
-})
-//Adaptation de la page à la taille de l'écran
-
-
-display()
+    document.querySelector('#btn').addEventListener('click', (e) => {
+        e.preventDefault()
+        login_or_signup()
+    })
+} //login/signup.js

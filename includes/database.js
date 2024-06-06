@@ -29,23 +29,13 @@ export var data = {
             "contenu" : "Je vais bien et vous ?",
             "vu" : true,
             "tag" : 2
-        },
-        {
-            "id" : 4,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:35",
-            "date" : "17/12/2023",
-            "contenu" : "Super 😁",
-            "vu" : true,
-            "tag" : 3
         }
     ],
     "users" : [
         {
             "id" : 1,
             "pseudo" : "Admin",
-            "pass" : "Admin",
+            "pass" : "wcIksDzZvHtqhtd/XazkAZF2bEhc1V3EjK+ayHMzXW8=",
             "id_ami" : [2, 3],
             "last_id" : 3,
             "profil" : "assets/profiles/1.png"
@@ -53,7 +43,7 @@ export var data = {
         {
             "id" : 2,
             "pseudo" : "Stan_Kamga",
-            "pass" : "Stan_Kamga",
+            "pass" : "ljSub8TKdW9/1/4iACrEw8sBJ6iIpsLwZqpvPRKe8gc=",
             "id_ami" : [1],
             "last_id" : 3,
             "profil" : "assets/profiles/2.png"
@@ -61,10 +51,12 @@ export var data = {
         {
             "id" : 3,
             "pseudo" : "Hernandez",
-            "pass" : "Hdz",
+            "pass" : "fdM+Tr8yfudubde/nvEmAVKhHlxNgru1CQm9DtuLeng=",
             "id_ami" : [1],
             "last_id" : 0,
             "profil" : "assets/profiles/3.png"
         }
     ]
 }
+
+export var event_t = new EventTarget()

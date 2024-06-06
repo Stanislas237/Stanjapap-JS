@@ -4,56 +4,83 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mail Box by Stan.co</title>
+        <title>STANJAPAP - Venez causer njoh !</title>
         <link rel="icon" sizes="321x312" href="assets/icon.png" type="image/png"/>
         <link rel="stylesheet" href="includes/style.css">
-        <script src="includes/index.js" defer></script>
+        <script type="module" src="includes/index.js" defer></script>
     </head>
-    <body onload="scroll();">
-    <form method="post" class="form">
-        <div class="left" id="left">
-            <nav class="navbar">
-                <div class="brand"></div>
-                <div class="link">
-                    <div class="nav-item">
-                        <a class="nav-link" href="upload.html">Profil</a>
+    <body>
+        <form class="form">
+            <div class="left" id="left">
+                <nav class="navbar">
+                    <div class="brand"></div>
+                    <div class="link">
+                        <!-- <div class="nav-item">
+                            <a class="nav-link" href="upload.html">Profil</a>
+                        </div> -->
+                        <div class="nav-item">
+                            <a class="nav-link" id="newd" href="#">Nouvelle discussion</a>
+                        </div>
+                
+                        <div class="nav-item">
+                            <a class="nav-link-logout" href="#">Déconnexion</a>
+                        </div>
                     </div>
-                    <div class="nav-item">
-                        <a class="nav-link" href="newfriend.html">Nouvelle discussion</a>
-                    </div>
-            
-                    <div class="nav-item">
-                        <a class="nav-link-logout" href="actions/user/logoutAction.php">Déconnexion</a>
-                    </div>
-                </div>
-            </nav>
-            <hr>
-            <div></div>
-        </div>
-        <div class="right" id="right">
-
-            <div id="err" style="display:none"></div>
-            <div class="profil">
-                <div class="back" style="cursor:pointer"><img src="assets/back.png"></div>
-                <div class="brand"></div>
+                </nav>
+                <hr>
+                <div></div>
             </div>
+            <div class="right" id="right">
+                <div class="profil">
+                    <div class="back" style="cursor:pointer"><img src="assets/back.png"></div>
+                    <div class="brand"></div>
+                </div>
 
-            <div class="messages" id="messages"></div>
+                <div class="messages" id="messages"></div>
 
-            <div class="big">
-                <div class="tagzone">
-                    <div class="tagcontent">
-                        <div id="sender"></div>
-                        <div id="tag"></div>
+                <div class="big">
+                    <div class="tagzone">
+                        <div class="tagcontent">
+                            <div id="sender"></div>
+                            <div id="tag"></div>
+                        </div>
+                        <img id="exitlink" alt="" src="assets/exit.png" style="cursor: pointer;">
                     </div>
-                    <img id="exitlink" alt="" src="assets/exit.png" style="cursor: pointer;">
+                    <div class="message">
+                        <textarea name="message" class="mess_text" id="text" placeholder="Votre message ici .."></textarea>
+                        <button name="send" id="send" type="submit">Envoyer</button>
+                    </div>
                 </div>
-                <div class="message">
-                    <textarea name="message" class="mess_text" id="text" placeholder="Votre message ici .."></textarea>
-                    <button name="send" id="send" type="submit">Envoyer</button>
+            </div>    
+        </form>
+        <form class="container">
+            <div class="err" style="display:none; color:red"></div><br><br>
+            <div class="mb-2">
+                <div class="mb-3">
+                    <label>Pseudo</label><hr>
+                    <label>Password</label>
                 </div>
-            </div>
-        </div>    
-    </form>
-</body>
+                <div class="mb-3">
+                    <input type="text" name="pseudo" id="ps_input"><br>
+                    <input type="password" name="pass" id="pw_input">
+                </div>
+            </div><br>
+            <input type="button" class="btn-primary" id="btn" value="Se connecter">
+            <br><br><br><p id="placeholder">Je n'ai pas de compte, <input type="button" id="lien_i" value="s'inscrire"></p>
+        </form>
+        <form class="container">
+            <div class="err" style="display:none; color:red"></div><br><br>
+            Entrez le pseudo de l'utilisateur à contacter svp<br>
+            <br><div class="mb-2">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1"><b>Pseudo</b></label>
+                </div>
+                <div class="mb-3">
+                  <input type="text" id="pseudo"><br>
+                </div>
+            </div><br>
+            <input type="button" class="btn-primary" id="btn2" value="Valider">
+            <br><br><br><p>Retour à <input type="button" id="discussions" value="mes discussions"></p>
+        </form>        
+    </body>
 </html>
