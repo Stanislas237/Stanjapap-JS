@@ -7,7 +7,7 @@
         <title>Mail Box by Stan.co</title>
         <link rel="icon" sizes="321x312" href="assets/icon.png" type="image/png"/>
         <link rel="stylesheet" href="includes/style.css">
-        <script type="module" src="includes/index.js" defer></script>
+        <script src="includes/index.js" defer></script>
     </head>
     <body onload="scroll();">
     <form method="post" class="form">
@@ -34,7 +34,7 @@
 
             <div id="err" style="display:none"></div>
             <div class="profil">
-                <div class="back"><a href="index.php"><img src="assets/back.png"></a></div>
+                <div class="back" style="cursor:pointer"><img src="assets/back.png"></div>
                 <div class="brand"></div>
             </div>
 
@@ -50,7 +50,7 @@
                 </div>
                 <div class="message">
                     <textarea name="message" class="mess_text" id="text" placeholder="Votre message ici .."></textarea>
-                    <button name="send" type="submit">Envoyer</button>
+                    <button name="send" id="send" type="submit">Envoyer</button>
                 </div>
             </div>
         </div>    
