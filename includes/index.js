@@ -72,6 +72,8 @@ import { event_t, getData, setData } from './database.js'
 //     ]
 // }
 // let event_t = new EventTarget()
+// let data = await fetch("https://github.com/Stanislas237/Stanjapap-JS/blob/main/includes/database.js")
+
 
 let data = getData()
 let index = 0
