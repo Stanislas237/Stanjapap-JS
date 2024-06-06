@@ -1,4 +1,4 @@
-import { data, event_t } from './database.js'
+import { event_t, getData, setData } from './database.js'
 
 //Useless
 // let data = {
@@ -71,12 +71,13 @@ import { data, event_t } from './database.js'
 //         }
 //     ]
 // }
+// let event_t = new EventTarget()
 
+let data = getData()
 let index = 0
 
 // *************************************** index.js ***************************************************
 
-let datas
 let user_id
 let user
 let receiver
@@ -110,7 +111,7 @@ function index_(test='a'){
 //Mise en forme de la page
 function display(){
     //Chercher les données de la base de données
-    datas = data
+    data = getData()
 
     //Affichage des amis
     ShowFriends()
@@ -118,7 +119,7 @@ function display(){
     //Affichage des noms et tags
     brands[0].innerHTML = user["pseudo"]
     if (receiver && tag){
-        const message = datas["messages"].find(message => message["id"] == tag)
+        const message = data["messages"].find(message => message["id"] == tag)
         document.querySelector('#sender').textContent = (message['id_sender'] == user_id) ? "Vous" : receiver["pseudo"]
         document.querySelector('#tag').innerHTML = message['contenu']
     }
@@ -136,7 +137,7 @@ function Desktop(test){
 function ShowFriends(){
     let left = document.querySelector('#left').lastElementChild
     left.innerHTML = ''
-    datas['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
+    data['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
         let friend = document.createElement('div')
         let div = document.createElement('div')
         let img = document.createElement('img')
@@ -169,7 +170,7 @@ function htmlspecialchars(unsafe) {
 
 function ShowMessages(){
     //Chercher les données de la base de données
-    datas = data
+    data = getData()
 
     //Display de l'écran
     left_style = "none"
@@ -182,14 +183,14 @@ function ShowMessages(){
     let date
     let del_message = `<p style='color:purple; font-family:"Bradley Hand ITC"; font-style:italic; font-weight:bold'>Ce message a été supprimé..</p>`
 
-    datas["messages"].filter(item => id_table.includes(item['id_receiver']) && id_table.includes(item['id_sender'])).forEach(item =>{
+    data["messages"].filter(item => id_table.includes(item['id_receiver']) && id_table.includes(item['id_sender'])).forEach(item =>{
         if (!date || date != item['date']){
             date = item['date']
             message += `<div class='date'>${date}</div><br>`
         }
         message += `<div style='float:right'><div class=${item['id_sender'] == user['id'] ? 'me' : 'you'}>`
         if (item['tag'] > 0){
-            let messageTag = datas["messages"].find(a => a['id'] == item['tag'])
+            let messageTag = data["messages"].find(a => a['id'] == item['tag'])
             message += `<a href='#${item['tag']}' name='${item['tag']}' class='links'><div class="tag"><div class="tagcontent"><div class="sender">${messageTag['id_sender'] == user['id'] ? 'Vous' : receiver['pseudo']}</div><div class='text'>${messageTag['contenu']}</div></div></div></a><br>`
         }
         message += `<div id='${item['id']}' class='last ${item['contenu'] != del_message ? 'bodymessage' : ''}'>${item['contenu']}<br><br><div class='heure last'>${item['heure']}`
@@ -229,8 +230,7 @@ function ShowMessages(){
             let message = data["messages"].find(item => item['id'] == id)
             message['contenu'] = del_message
             message['tag'] = 0
-            datas = data
-            event_t.dispatchEvent(new Event('change'))
+            data = setData(data, true)
             ShowMessages()
         })
     })
@@ -280,8 +280,8 @@ document.querySelector('#discussions').addEventListener('click', () => {
 if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
 { 
     //Accès aux données des utilisateurs
-    datas = data
-    const user = datas["users"].find(user => user["id"] == user_id)
+    data = getData()
+    const user = data["users"].find(user => user["id"] == user_id)
     
     //Adaptation de la page à la taille de l'écran
     Desktop(mediaStyle.matches)
@@ -310,7 +310,7 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
         let message = htmlspecialchars(document.querySelector('#text').value.trim())
         if (receiver && message.length > 0) {
             data['messages'].push({
-                "id" : datas["messages"].length + 1,
+                "id" : data["messages"].length + 1,
                 "id_sender" : user['id'],
                 "id_receiver" : receiver['id'],
                 "contenu" : message,
@@ -319,7 +319,7 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
                 "vu" : false,
                 "tag" : tag ? +tag : 0
             })
-            event_t.dispatchEvent(new Event('change'))
+            data = setData(data, true)
             document.querySelector('#text').value = ""
             tag = undefined
             ShowMessages()
@@ -370,7 +370,7 @@ async function hashPassword(pass) {
 }
 
 async function verify(pass, dbpass){
-    hash = await hashPassword(pass)
+    let hash = await hashPassword(pass)
     if (hash !== dbpass) {
         displayerror('Mauvais mot de passe')
         return false

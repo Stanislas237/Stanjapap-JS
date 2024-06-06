@@ -1,4 +1,4 @@
-export var data = {
+var data = {
     "messages" : [
         {
             "id" : 1,
@@ -60,3 +60,13 @@ export var data = {
 }
 
 export var event_t = new EventTarget()
+
+export function getData(){
+    return data
+}
+
+export function setData(data_imported, change=false){
+    data = data_imported
+    if (change) event_t.dispatchEvent(new Event('change'))
+    return data
+}
