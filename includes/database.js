@@ -59,13 +59,13 @@ var data = {
     ]
 }
 
-export var event_t = new EventTarget()
+var event_t = new EventTarget()
 
-export function getData(){
+function getData(){
     return data
 }
 
-export function setData(data_imported, change=false){
+function setData(data_imported, change=false){
     data = data_imported
     if (change) event_t.dispatchEvent(new Event('change'))
     return data
