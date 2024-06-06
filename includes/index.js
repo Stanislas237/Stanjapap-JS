@@ -1,4 +1,4 @@
-import { data } from './database'
+import { data } from './database.js'
 
 let datas
 let errors
