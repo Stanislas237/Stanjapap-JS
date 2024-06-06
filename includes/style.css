@@ -1,0 +1,509 @@
+/* CSS des formulaires d'inscription et suppression*/
+body {
+    background-color: rgba(238, 179, 71, 0.536);
+}
+
+form.container {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.mb-2 {
+    display: flex;
+}
+
+.mb-3 {
+    display: block;
+    margin-left: 10%;
+}
+
+.mb-4 {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    justify-content: center;
+}
+
+.mb-4 a {
+    color: orange;
+    background-color:white;
+    border-radius:10px;
+    border:2px black solid;
+    padding:0px 3px;
+    text-decoration:none;
+}
+
+.mb-4 a:hover {
+    background-color: rgb(237, 224, 201);
+}
+
+.mb-3 input {
+    border-radius: 5px;
+    border: 1px black solid;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.mb-3 input:focus {
+    box-shadow: 0px 0px 5px orange;
+}
+
+button.btn-primary, .mb-4 button {
+    background-color: orange;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.lien_i {
+    color: blue;
+}
+
+
+
+
+
+
+/* CSS de la page d'accueil */
+.form {
+    width: 100%;
+    height: 95vh;
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.left {
+    background-color: burlywood;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-right: 1px black solid;
+    height: 100%;
+}
+
+.right {
+    background-color:cornsilk;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: 1px black solid;
+    height: 100%;
+    flex-direction: column;
+}
+ 
+.navbar {
+    display: flex;
+    background-color: orange;
+    align-items: center;
+    font-family: 'Cooper Black';
+    border-top-left-radius: 10px;
+    border-bottom: 10px black solid;
+}
+
+.link {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-item {
+    font-size: x-small;
+}
+
+a.nav-link,  a.nav-link-logout{
+    color: black;
+    text-decoration: none;
+}
+
+a.nav-link:hover,  a.nav-link-logout:hover {
+    color: white;
+}
+
+.mess_text {
+    resize: none;
+    height: 100%;
+    width: 100%;
+}
+
+.messages{
+    height: 100%;
+    overflow-y: scroll;
+    padding: 0px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages::-webkit-scrollbar{
+    display: none;
+}
+
+.messages a {
+    color: black;
+    text-decoration: none;
+}
+
+.warning div {
+    background-color: gray;
+    width: 70%;
+    height: fit-content;
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight:bold;
+    font-family: 'Segoe MDL2 Assets';
+}
+
+.me {
+    background-color: orange;
+    float: right;
+}
+
+.you {
+    background-color: white;
+    float: left;
+}
+
+.heure {
+    float: right;
+}
+
+.me, .you {
+    display: flex;
+    flex-direction: column;
+}
+
+.me, .you {
+    max-width: 50%;
+    min-width: 15%;
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    padding-bottom: 2px;
+    overflow-wrap: break-word;
+}
+
+.message {
+    border-top: 1px black solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.big {
+    display: flex;
+    flex-direction: column;
+}
+
+.big .tagzone {
+    background-color: black;
+}
+
+.big .tagzone, .me .tag, .you .tag {
+    height: 40px;
+    display: flex;
+    padding: 3px 3px 3px 3px;
+}
+
+.big .tagzone img {
+    width: 10px;
+    height: 10px;
+}
+
+.tagcontent {
+    width: 100%;
+    max-width: 80%;
+    background-color: rgb(211, 193, 157);
+    height: 100%;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
+}
+
+.sender, #sender {
+    width: fit-content;
+    max-width: 100%;
+    font-family: 'Segoe MDL2 Assets';
+    font-size:medium;
+    font-weight: bolder;
+    color: rgb(87, 138, 10);
+}
+
+.text, #tag {
+    font-size: small;
+    max-width: 60%;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.big .text::-webkit-scrollbar, .big #tag::-webkit-scrollbar{
+    display: none;
+}
+
+.message button {
+    display: block;
+    height: 100%;
+    border: none;
+    background-color: orange;
+    border-bottom-right-radius: 10px;
+}
+
+.profil {
+    height: 30px;
+    background-color:black;
+    color: orange;
+    font-family: 'Cooper Black';
+    border-top-right-radius: 10px;
+    display: flex;
+}
+
+.back img {
+    width: 20px;
+    height: 20px;
+}
+
+.contact {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    padding-left: 5%;
+    gap: 5%;
+    cursor: pointer;
+}
+
+.contact:hover {
+    background-color: orange;
+}
+
+.contact img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    background-color: white;
+}
+
+.disc {
+    color:black;
+    text-decoration: none;
+}
+
+.heure {
+    font-size: xx-small;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+}
+
+.heure img {
+    width: 10px;
+    height: 10px;
+}
+
+.date {
+    font-size:small;
+    font-family:'Agency FB';
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    border-top: 1px black solid;
+}
+
+.searchbar{
+    display: flex;
+    padding: 5px 10%;
+}
+
+.searchbar input {
+    width: 70%;
+    height: 30px;
+}
+
+.searchbar button {
+    background-color: orange;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(231, 159, 26);
+}
+
+
+
+
+
+/* CSS plus de 600px */
+@media screen and (min-width: 501px) {
+    form.container {
+        width: 40%;
+        height: fit-content;
+        margin: 10% 30%;
+        border: 1px orange solid;
+        border-radius: 15px;
+        text-align: center;
+        background-color: rgba(238, 179, 71, 0.536);
+        padding: 2% 0%;    
+    }
+
+    .navbar {
+        height: 50px;
+    }   
+    
+    .left {
+        overflow-y: scroll;
+    } 
+    .left::-webkit-scrollbar{
+        display: none;
+    }       
+}
+
+@media screen and (max-width: 800px) {
+    .heure {
+        gap:2px;
+    }
+
+    .left {
+        width: 100%;
+    }
+    
+    .right {
+        width: 100%;
+    }    
+
+    .link {
+        gap: 5px;
+    }
+
+    .brand {
+        margin: 0% 2%;
+        font-size: medium;
+        padding: 0% 1%;
+    }
+
+    .profil {
+        gap: 20px;
+        align-items: center;
+    }
+}
+
+/* CSS plus de 800px */
+@media screen and (min-width: 801px) {
+    .contact {
+        font-size: larger;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .heure {
+        gap:5px;
+    }    
+
+    .left {
+        width: 45%;
+    }
+    
+    .right {
+        width: 55%;
+        display: flex;
+    }
+
+    .link {
+        gap: 10px;
+    }
+
+    .brand {
+        margin: 0% 5%;
+        font-size: larger;
+    }
+
+    .profil {
+        justify-content: center;
+    }    
+
+    .back img {
+        display: none;
+    }
+}
+
+
+/* CSS moins de 800px et plus de 600px */
+@media screen and (max-width: 800px) and (min-width: 501px) {
+    .heure {
+        gap:2px;
+    }
+
+    .left {
+        width: 100%;
+    }
+    
+    .right {
+        width: 100%;
+    }    
+
+    .link {
+        gap: 5px;
+    }
+
+    .brand {
+        border-right: 2px solid black;
+    }
+
+    .profil {
+        gap: 20px;
+        align-items: center;
+    }
+
+    form.container {
+        font-size: 10px;
+    }
+
+    .mb-3 input {
+        height: 10px;
+    }
+
+    button.btn-primary {
+        width: 40%;
+        font-size: 10px;
+    }
+
+    .mb-4 button {
+        width: 15%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .mb-4 a {
+        font-size: 15px;
+    }
+}
+
+
+
+
+/* CSS moins de 500px */
+@media screen and (max-width: 500px) {
+    form.container {
+        width: 100%;
+    }
+    .btn-primary {
+        width: 40%;
+        margin-left: 30%;
+        font-size: 10px;
+    }
+    p {
+        text-align: center;
+    }
+    .navbar {
+        height: 80px;
+        gap: 40px;
+    }
+    .link {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

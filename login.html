@@ -1,0 +1,31 @@
+<?php
+  require('actions/user/loginAction.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<?php include 'includes/head.php'; ?>
+<body>
+    
+<br><br>
+  <form class="container" method="POST">
+
+    <?php 
+      if(isset($errorMsg)) {
+        echo '<p style="color:red">'.$errorMsg.'</p>';
+      }
+    ?>
+    <div class="mb-2">
+        <div class="mb-3">
+            <label>Pseudo</label><hr>
+            <label>Password</label>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="pseudo"><br>
+            <input type="password" name="pass">
+        </div>
+    </div><br>
+    <button type="submit" class="btn-primary" name="btn">Se connecter</button>
+    <br><br><br><p>Je n'ai pas de compte, <a href="signup.php" class="lien_i">s'inscrire</a></p>
+  </form>
+</body>
+</html>
