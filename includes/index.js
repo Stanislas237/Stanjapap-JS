@@ -1,4 +1,4 @@
-import { data } from '../actions/database'
+import { data } from './database'
 
 let datas
 let errors
