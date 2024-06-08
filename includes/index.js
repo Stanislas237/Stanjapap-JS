@@ -324,7 +324,6 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
             data = setData(data, true)
             document.querySelector('#text').value = ""
             tag = undefined
-            ShowMessages()
         }
     })
     event_t.addEventListener('change', ShowMessages)
