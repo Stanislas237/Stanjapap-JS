@@ -91,6 +91,7 @@ const brands = document.querySelectorAll('.brand')
 
 //Redirection de l'utilisateur
 function index_(test='a'){
+    Desktop(mediaStyle.matches)
     let forms = document.querySelectorAll("form")
     if (typeof test === "boolean")
     {
