@@ -1,5 +1,5 @@
 import { event_t } from './eventManager.js'
-import fs from 'fs'
+import * as db from './database.json'
 
 
 let data = getData()
@@ -17,11 +17,13 @@ let right_style = "none"
 const brands = document.querySelectorAll('.brand')
 
 function getData(){
-    return JSON.parse(fs.readFileSync('database.json', 'utf8'))
+    // return JSON.parse(fs.readFileSync('database.json', 'utf8'))
+    return data = JSON.parse(db)
 }
 function setData(data_imported, change=false){
     // Écrire les données modifiées dans le fichier
-    fs.writeFileSync('database.json', JSON.stringify(data_imported, null, 2))
+    // fs.writeFileSync('database.json', JSON.stringify(data_imported, null, 2))
+    db = JSON.stringify(data_imported)
     if (change) event_t.dispatchEvent(new Event('change'))
     return data_imported
 }
@@ -37,7 +39,7 @@ function index_(test='a'){
         forms[2].style.display = 'none'
         if (test){
             user_id = localStorage.getItem('STANJAPAP_Essentials')
-            user = data["users"].find(item => item["id"] == user_id)
+            user = getData()["users"].find(item => item["id"] == user_id)
         }
     }else{
         index = 1
@@ -76,7 +78,7 @@ function Desktop(test){
 function ShowFriends(){
     let left = document.querySelector('#left').lastElementChild
     left.innerHTML = ''
-    data['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
+    getData()['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
         let friend = document.createElement('div')
         let div = document.createElement('div')
         let img = document.createElement('img')
@@ -317,7 +319,7 @@ async function verify(pass, dbpass){
 }
 
 function check_if_exists(name){
-    let result = data['users'].find(elt => elt['pseudo'] === name)
+    let result = getData()['users'].find(elt => elt['pseudo'] === name)
     if (!result) {
         displayerror('Cet utilisateur n\'existe pas')
         return false
