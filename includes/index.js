@@ -1,5 +1,5 @@
-import fs from 'fs'
 import { event_t } from './eventManager.js'
+import fs from 'fs'
 
 
 let data = getData()
@@ -166,7 +166,7 @@ function ShowMessages(){
         elt.addEventListener("click", (e) =>{
             e.preventDefault()
             let id = +elt.parentElement.parentElement.id
-            let message = data["messages"].find(item => item['id'] == id)
+            let message = getData()["messages"].find(item => item['id'] == id)
             message['contenu'] = del_message
             message['tag'] = 0
             data = setData(data, true)
@@ -246,6 +246,7 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
     document.querySelector('#send').addEventListener('click', (e)=>{
         e.preventDefault()
         let date = new Date()
+        data = getData()
         let message = htmlspecialchars(document.querySelector('#text').value.trim())
         if (receiver && message.length > 0) {
             data['messages'].push({
@@ -358,6 +359,7 @@ async function signup(name, pass) {
     if (check_if_exists(name)) return
     let password
     if (!(password = await hashPassword(pass))) return
+    data = getData()
     data['users'].push({
         "id" : data["users"].length + 1,
         "pseudo" : name,
