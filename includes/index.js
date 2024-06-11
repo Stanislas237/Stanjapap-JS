@@ -1,5 +1,5 @@
 import { event_t } from './eventManager.js'
-import * as db from './database.json'
+import { db } from './database.js'
 
 
 let data = getData()

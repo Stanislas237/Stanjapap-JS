@@ -1,4 +1,4 @@
-{
+export var db = {
     "messages" : [
         {
             "id" : 1,
