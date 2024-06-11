@@ -1,78 +1,5 @@
-import { event_t, getData, setData } from './database.js'
-
-//Useless
-// let data = {
-//     "messages" : [
-//         {
-//             "id" : 1,
-//             "id_sender" : 2,
-//             "id_receiver" : 1,
-//             "heure" : "21:31",
-//             "date" : "17/12/2023",
-//             "contenu" : "Bonjour admin je suis nouveau..",
-//             "vu" : true,
-//             "tag" : 0
-//         },
-//         {
-//             "id" : 2,
-//             "id_sender" : 2,
-//             "id_receiver" : 1,
-//             "heure" : "21:32",
-//             "date" : "17/12/2023",
-//             "contenu" : "Comment allez-vous ?",
-//             "vu" : true,
-//             "tag" : 0
-//         },
-//         {
-//             "id" : 3,
-//             "id_sender" : 1,
-//             "id_receiver" : 2,
-//             "heure" : "21:32",
-//             "date" : "17/12/2023",
-//             "contenu" : "Je vais bien et vous ?",
-//             "vu" : true,
-//             "tag" : 2
-//         },
-//         {
-//             "id" : 4,
-//             "id_sender" : 2,
-//             "id_receiver" : 1,
-//             "heure" : "21:35",
-//             "date" : "17/12/2023",
-//             "contenu" : "Super 😁",
-//             "vu" : true,
-//             "tag" : 3
-//         }
-//     ],
-//     "users" : [
-//         {
-//             "id" : 1,
-//             "pseudo" : "Admin",
-//             "pass" : "wcIksDzZvHtqhtd/XazkAZF2bEhc1V3EjK+ayHMzXW8=",
-//             "id_ami" : [2, 3],
-//             "last_id" : 3,
-//             "profil" : "assets/profiles/1.png"
-//         },
-//         {
-//             "id" : 2,
-//             "pseudo" : "Stan_Kamga",
-//             "pass" : "ljSub8TKdW9/1/4iACrEw8sBJ6iIpsLwZqpvPRKe8gc=",
-//             "id_ami" : [1],
-//             "last_id" : 3,
-//             "profil" : "assets/profiles/2.png"
-//         },
-//         {
-//             "id" : 3,
-//             "pseudo" : "Hernandez",
-//             "pass" : "fdM+Tr8yfudubde/nvEmAVKhHlxNgru1CQm9DtuLeng=",
-//             "id_ami" : [1],
-//             "last_id" : 0,
-//             "profil" : "assets/profiles/3.png"
-//         }
-//     ]
-// }
-// let event_t = new EventTarget()
-// let data = await fetch("https://github.com/Stanislas237/Stanjapap-JS/blob/main/includes/database.js")
+import fs from 'fs'
+import { event_t } from './eventManager.js'
 
 
 let data = getData()
@@ -89,6 +16,15 @@ let right_style = "none"
 
 const brands = document.querySelectorAll('.brand')
 
+function getData(){
+    return JSON.parse(fs.readFileSync('database.json', 'utf8'))
+}
+function setData(data_imported, change=false){
+    // Écrire les données modifiées dans le fichier
+    fs.writeFileSync('database.json', JSON.stringify(data_imported, null, 2))
+    if (change) event_t.dispatchEvent(new Event('change'))
+    return data_imported
+}
 //Redirection de l'utilisateur
 function index_(test='a'){
     Desktop(mediaStyle.matches)
@@ -430,6 +366,7 @@ async function signup(name, pass) {
         "last_id" : 0,
         "profil" : `assets/profiles/Nopicture.png`
     })
+    data = setData(data, true)
     reset_form()
     localStorage.setItem('STANJAPAP_Essentials', (data["users"].length).toString())
     index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
