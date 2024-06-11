@@ -1,4 +1,4 @@
-import fs from 'fs'
+import * as fs from './fs.d.ts'
 import { event_t } from './eventManager.js'
 
 
