@@ -18,12 +18,12 @@ const brands = document.querySelectorAll('.brand')
 
 function getData(){
     // return JSON.parse(fs.readFileSync('database.json', 'utf8'))
-    return data = JSON.parse(db)
+    return data = db
 }
 function setData(data_imported, change=false){
     // Écrire les données modifiées dans le fichier
     // fs.writeFileSync('database.json', JSON.stringify(data_imported, null, 2))
-    db = JSON.stringify(data_imported)
+    db = data_imported
     if (change) event_t.dispatchEvent(new Event('change'))
     return data_imported
 }
