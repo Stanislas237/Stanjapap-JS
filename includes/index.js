@@ -15,6 +15,7 @@ const brands = document.querySelectorAll('.brand')
 async function getData(){
     const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
     const data = await res.json()
+    alert(atob(data["content"]))
     return atob(data["content"])
 }
 async function setData(data){
@@ -323,8 +324,9 @@ async function verify(pass, dbpass){
     }else return true
 }
 
-function check_if_exists(name){
-    let result = getData()['users'].find(elt => elt['pseudo'] === name)
+async function check_if_exists(name){
+    data = await getData()
+    let result = data['users'].find(elt => elt['pseudo'] === name)
     if (!result) {
         displayerror('Cet utilisateur n\'existe pas')
         return false
@@ -366,7 +368,7 @@ async function signup(name, pass) {
     if (check_if_exists(name)) return
     let password
     if (!(password = await hashPassword(pass))) return
-    data = getData()
+    data = await getData()
     data['users'].push({
         "id" : data["users"].length + 1,
         "pseudo" : name,
