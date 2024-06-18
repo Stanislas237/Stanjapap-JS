@@ -15,7 +15,7 @@ const brands = document.querySelectorAll('.brand')
 async function getData(){
     const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
     const data = await res.json()
-    alert(atob(data["content"]))
+    console.log(atob(data["content"]))
     return atob(data["content"])
 }
 async function setData(data){
