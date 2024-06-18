@@ -1,6 +1,5 @@
-import dotenv from 'dotenv'
-dotenv.config()
-const githubToken = process.env.GITHUB_TOKEN
+import dotenv from './../.env'
+const githubToken = dotenv.GITHUB_TOKEN
 //import { event_t } from './eventManager.js'
 //import { db } from './database.js'
 
@@ -20,13 +19,13 @@ let right_style = "none"
 const brands = document.querySelectorAll('.brand')
 
 async function getData(){
-    const res = await fetch("https://api.github.com/repos/Stanislas237/Stanjapap-DB/contents/database.json")
+    const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
     const data = await res.json()
-    return data = atob(data["content"])
+    return atob(data["content"])
 }
 async function setData(data){
     // Create commit
-    const res = await fetch("https://api.github.com/repos/Stanislas237/Stanjapap-DB/contents/database.json", {
+    const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
         method: 'POST',
         headers: {
           "Authorization": `token ${githubToken}`  
