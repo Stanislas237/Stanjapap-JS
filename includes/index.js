@@ -1,5 +1,7 @@
-import { event_t } from './eventManager.js'
-import { db } from './database.js'
+require('dotenv').config()
+const githubToken = process.env.GITHUB_TOKEN
+//import { event_t } from './eventManager.js'
+//import { db } from './database.js'
 
 
 let data = getData()
@@ -16,17 +18,26 @@ let right_style = "none"
 
 const brands = document.querySelectorAll('.brand')
 
-function getData(){
-    // return JSON.parse(fs.readFileSync('database.json', 'utf8'))
-    return data = db
+async function getData(){
+    const res = await fetch("https://api.github.com/repos/Stanislas237/Stanjapap-DB/contents/database.json")
+    const data = await res.json()
+    return data = atob(data["content"])
 }
-function setData(data_imported, change=false){
-    // Écrire les données modifiées dans le fichier
-    // fs.writeFileSync('database.json', JSON.stringify(data_imported, null, 2))
-    db = data_imported
-    if (change) event_t.dispatchEvent(new Event('change'))
-    return data_imported
-}
+async function setData(data){
+    // Create commit
+    const res = await fetch("https://api.github.com/repos/Stanislas237/Stanjapap-DB/contents/database.json", {
+        method: 'POST',
+        headers: {
+          "Authorization": `token ${githubToken}`  
+        },
+        body: JSON.stringify({
+          message: "Update chat data",
+          content: btoa(data), 
+          branch: "main"
+        })
+    })
+    return await getData()
+}    
 //Redirection de l'utilisateur
 function index_(test='a'){
     Desktop(mediaStyle.matches)
