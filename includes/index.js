@@ -1,5 +1,4 @@
 import dotenv from './../.env'
-const githubToken = dotenv.GITHUB_TOKEN
 //import { event_t } from './eventManager.js'
 //import { db } from './database.js'
 
@@ -28,7 +27,7 @@ async function setData(data){
     const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
         method: 'POST',
         headers: {
-          "Authorization": `token ${githubToken}`  
+          "Authorization": `token ${process.env.API_TOKEN}`  
         },
         body: JSON.stringify({
           message: "Update chat data",
