@@ -1,8 +1,3 @@
-import dotenv from './../.env'
-//import { event_t } from './eventManager.js'
-//import { db } from './database.js'
-
-
 let data = getData()
 let index = 0
 
