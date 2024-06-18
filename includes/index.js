@@ -1,4 +1,5 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 const githubToken = process.env.GITHUB_TOKEN
 //import { event_t } from './eventManager.js'
 //import { db } from './database.js'
