@@ -1,4 +1,4 @@
-let data = getData()
+let data = await getData(true)
 let index = 0
 
 // *************************************** index.js ***************************************************
@@ -12,15 +12,16 @@ let right_style = "none"
 
 const brands = document.querySelectorAll('.brand')
 
-async function getData(){
+async function getData(test=false){
     const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
-    const data = await res.json()
-    console.log(atob(data["content"]))
-    return atob(data["content"])
+    const datas = await res.json()
+    console.log(JSON.parse(atob(datas["content"])))
+    if (test) return JSON.parse(atob(datas["content"]))
+    data = JSON.parse(atob(datas["content"]))
 }
 async function setData(data){
     // Create commit
-    const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
+    await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
         method: 'POST',
         headers: {
           "Authorization": `token ${process.env.API_TOKEN}`  
@@ -31,10 +32,10 @@ async function setData(data){
           branch: "main"
         })
     })
-    return await getData()
+    await getData()
 }    
 //Redirection de l'utilisateur
-function index_(test='a'){
+async function index_(test='a'){
     Desktop(mediaStyle.matches)
     let forms = document.querySelectorAll("form")
     if (typeof test === "boolean")
@@ -45,7 +46,8 @@ function index_(test='a'){
         forms[2].style.display = 'none'
         if (test){
             user_id = localStorage.getItem('STANJAPAP_Essentials')
-            user = getData()["users"].find(item => item["id"] == user_id)
+            await getData()
+            user = data["users"].find(item => item["id"] == user_id)
         }
     }else{
         index = 1
@@ -56,9 +58,9 @@ function index_(test='a'){
 }    
 
 //Mise en forme de la page
-function display(){
+async function display(){
     //Chercher les données de la base de données
-    data = getData()
+    await getData()
 
     //Affichage des amis
     ShowFriends()
@@ -81,10 +83,11 @@ function Desktop(test){
     document.querySelector('#right').style.display = test ? right_style : "flex"
 }
 
-function ShowFriends(){
+async function ShowFriends(){
     let left = document.querySelector('#left').lastElementChild
     left.innerHTML = ''
-    getData()['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
+    await getData()
+    data['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
         let friend = document.createElement('div')
         let div = document.createElement('div')
         let img = document.createElement('img')
@@ -115,9 +118,9 @@ function htmlspecialchars(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-function ShowMessages(){
+async function ShowMessages(){
     //Chercher les données de la base de données
-    data = getData()
+    await getData()
 
     //Display de l'écran
     left_style = "none"
@@ -171,13 +174,14 @@ function ShowMessages(){
         elt.style.cursor = 'pointer'
     })
     document.querySelectorAll('.delete').forEach(elt=>{
-        elt.addEventListener("click", (e) =>{
+        elt.addEventListener("click", async function(e){
             e.preventDefault()
             let id = +elt.parentElement.parentElement.id
-            let message = getData()["messages"].find(item => item['id'] == id)
+            await getData()
+            let message = data["messages"].find(item => item['id'] == id)
             message['contenu'] = del_message
             message['tag'] = 0
-            data = setData(data, true)
+            await setData(data)
             ShowMessages()
         })
     })
@@ -227,8 +231,11 @@ document.querySelector('#discussions').addEventListener('click', () => {
 if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
 { 
     //Accès aux données des utilisateurs
-    data = getData()
-    const user = data["users"].find(user => user["id"] == user_id)
+    async function getUser(){
+        await getData()
+        user = data["users"].find(user => user["id"] == user_id)
+    }
+    getUser()
     
     //Adaptation de la page à la taille de l'écran
     Desktop(mediaStyle.matches)
@@ -251,11 +258,11 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
         Desktop(mediaStyle.matches)
         display()
     })
-    document.querySelector('#send').addEventListener('click', (e)=>{
+    document.querySelector('#send').addEventListener('click', async(e)=>{
         e.preventDefault()
         let date = new Date()
-        data = getData()
         let message = htmlspecialchars(document.querySelector('#text').value.trim())
+        await getData()
         if (receiver && message.length > 0) {
             data['messages'].push({
                 "id" : data["messages"].length + 1,
@@ -267,7 +274,7 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
                 "vu" : false,
                 "tag" : tag ? +tag : 0
             })
-            data = setData(data, true)
+            await setData(data)
             document.querySelector('#text').value = ""
             tag = undefined
         }
@@ -325,7 +332,7 @@ async function verify(pass, dbpass){
 }
 
 async function check_if_exists(name){
-    data = await getData()
+    await getData()
     let result = data['users'].find(elt => elt['pseudo'] === name)
     if (!result) {
         displayerror('Cet utilisateur n\'existe pas')
@@ -368,7 +375,7 @@ async function signup(name, pass) {
     if (check_if_exists(name)) return
     let password
     if (!(password = await hashPassword(pass))) return
-    data = await getData()
+    await getData()
     data['users'].push({
         "id" : data["users"].length + 1,
         "pseudo" : name,
@@ -377,7 +384,7 @@ async function signup(name, pass) {
         "last_id" : 0,
         "profil" : `assets/profiles/Nopicture.png`
     })
-    data = setData(data, true)
+    await setData(data)
     reset_form()
     localStorage.setItem('STANJAPAP_Essentials', (data["users"].length).toString())
     index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))
