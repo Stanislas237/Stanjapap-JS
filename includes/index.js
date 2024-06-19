@@ -15,7 +15,6 @@ const brands = document.querySelectorAll('.brand')
 async function getData(test=false){
     const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
     const datas = await res.json()
-    console.log(JSON.parse(atob(datas["content"])))
     if (test) return JSON.parse(atob(datas["content"]))
     data = JSON.parse(atob(datas["content"]))
 }
@@ -279,7 +278,7 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
             tag = undefined
         }
     })
-    event_t.addEventListener('change', ShowMessages)
+    //event_t.addEventListener('change', ShowMessages)
     
     //Début
     display()
