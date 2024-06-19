@@ -1,1 +1,0 @@
-export var TOKEN = process.env.TOKEN
