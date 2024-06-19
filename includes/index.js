@@ -23,7 +23,7 @@ async function setData(data){
     await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
         method: 'POST',
         headers: {
-          "Authorization": `token ${process.env.API_TOKEN}`  
+          "Authorization": `token ${process.env.TOKEN}`
         },
         body: JSON.stringify({
           message: "Update chat data",
