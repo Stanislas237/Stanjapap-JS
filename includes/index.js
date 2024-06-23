@@ -1,8 +1,79 @@
-let data = await getData(true)
+let data = {
+    "messages" : [
+        {
+            "id" : 1,
+            "id_sender" : 2,
+            "id_receiver" : 1,
+            "heure" : "21:31",
+            "date" : "17/12/2023",
+            "contenu" : "Bonjour admin je suis nouveau..",
+            "vu" : true,
+            "tag" : 0
+        },
+        {
+            "id" : 2,
+            "id_sender" : 2,
+            "id_receiver" : 1,
+            "heure" : "21:32",
+            "date" : "17/12/2023",
+            "contenu" : "Comment allez-vous ?",
+            "vu" : true,
+            "tag" : 0
+        },
+        {
+            "id" : 3,
+            "id_sender" : 1,
+            "id_receiver" : 2,
+            "heure" : "21:32",
+            "date" : "17/12/2023",
+            "contenu" : "Je vais bien et vous ?",
+            "vu" : true,
+            "tag" : 2
+        },
+        {
+            "id" : 4,
+            "id_sender" : 2,
+            "id_receiver" : 1,
+            "heure" : "21:35",
+            "date" : "17/12/2023",
+            "contenu" : "Super 😁",
+            "vu" : true,
+            "tag" : 3
+        }
+    ],
+    "users" : [
+        {
+            "id" : 1,
+            "pseudo" : "Admin",
+            "pass" : "wcIksDzZvHtqhtd/XazkAZF2bEhc1V3EjK+ayHMzXW8=",
+            "id_ami" : [2, 3],
+            "last_id" : 3,
+            "profil" : "assets/profiles/1.png"
+        },
+        {
+            "id" : 2,
+            "pseudo" : "Stan_Kamga",
+            "pass" : "ljSub8TKdW9/1/4iACrEw8sBJ6iIpsLwZqpvPRKe8gc=",
+            "id_ami" : [1],
+            "last_id" : 3,
+            "profil" : "assets/profiles/2.png"
+        },
+        {
+            "id" : 3,
+            "pseudo" : "Hernandez",
+            "pass" : "fdM+Tr8yfudubde/nvEmAVKhHlxNgru1CQm9DtuLeng=",
+            "id_ami" : [1],
+            "last_id" : 0,
+            "profil" : "assets/profiles/3.png"
+        }
+    ]
+}
+
 let index = 0
 
 // *************************************** index.js ***************************************************
 
+let datas
 let user_id
 let user
 let receiver
@@ -12,30 +83,8 @@ let right_style = "none"
 
 const brands = document.querySelectorAll('.brand')
 
-async function getData(test=false){
-    const res = await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json")
-    const datas = await res.json()
-    if (test) return JSON.parse(atob(datas["content"]))
-    data = JSON.parse(atob(datas["content"]))
-}
-async function setData(data){
-    // Create commit
-    await fetch("https://api.github.com/repos/Stanislas037/Stanjapap-DB/contents/database.json", {
-        method: 'POST',
-        headers: {
-          "Authorization": `token ${process.env.TOKEN}`
-        },
-        body: JSON.stringify({
-          message: "Update chat data",
-          content: btoa(data), 
-          branch: "main"
-        })
-    })
-    await getData()
-}    
 //Redirection de l'utilisateur
-async function index_(test='a'){
-    Desktop(mediaStyle.matches)
+function index_(test='a'){
     let forms = document.querySelectorAll("form")
     if (typeof test === "boolean")
     {
@@ -45,7 +94,6 @@ async function index_(test='a'){
         forms[2].style.display = 'none'
         if (test){
             user_id = localStorage.getItem('STANJAPAP_Essentials')
-            await getData()
             user = data["users"].find(item => item["id"] == user_id)
         }
     }else{
@@ -57,9 +105,9 @@ async function index_(test='a'){
 }    
 
 //Mise en forme de la page
-async function display(){
+function display(){
     //Chercher les données de la base de données
-    await getData()
+    datas = data
 
     //Affichage des amis
     ShowFriends()
@@ -67,7 +115,7 @@ async function display(){
     //Affichage des noms et tags
     brands[0].innerHTML = user["pseudo"]
     if (receiver && tag){
-        const message = data["messages"].find(message => message["id"] == tag)
+        const message = datas["messages"].find(message => message["id"] == tag)
         document.querySelector('#sender').textContent = (message['id_sender'] == user_id) ? "Vous" : receiver["pseudo"]
         document.querySelector('#tag').innerHTML = message['contenu']
     }
@@ -82,11 +130,10 @@ function Desktop(test){
     document.querySelector('#right').style.display = test ? right_style : "flex"
 }
 
-async function ShowFriends(){
+function ShowFriends(){
     let left = document.querySelector('#left').lastElementChild
     left.innerHTML = ''
-    await getData()
-    data['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
+    datas['users'].filter(item => user['id_ami'].includes(item['id'])).forEach(item =>{
         let friend = document.createElement('div')
         let div = document.createElement('div')
         let img = document.createElement('img')
@@ -117,9 +164,9 @@ function htmlspecialchars(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-async function ShowMessages(){
+function ShowMessages(){
     //Chercher les données de la base de données
-    await getData()
+    datas = data
 
     //Display de l'écran
     left_style = "none"
@@ -132,14 +179,14 @@ async function ShowMessages(){
     let date
     let del_message = `<p style='color:purple; font-family:"Bradley Hand ITC"; font-style:italic; font-weight:bold'>Ce message a été supprimé..</p>`
 
-    data["messages"].filter(item => id_table.includes(item['id_receiver']) && id_table.includes(item['id_sender'])).forEach(item =>{
+    datas["messages"].filter(item => id_table.includes(item['id_receiver']) && id_table.includes(item['id_sender'])).forEach(item =>{
         if (!date || date != item['date']){
             date = item['date']
             message += `<div class='date'>${date}</div><br>`
         }
         message += `<div style='float:right'><div class=${item['id_sender'] == user['id'] ? 'me' : 'you'}>`
         if (item['tag'] > 0){
-            let messageTag = data["messages"].find(a => a['id'] == item['tag'])
+            let messageTag = datas["messages"].find(a => a['id'] == item['tag'])
             message += `<a href='#${item['tag']}' name='${item['tag']}' class='links'><div class="tag"><div class="tagcontent"><div class="sender">${messageTag['id_sender'] == user['id'] ? 'Vous' : receiver['pseudo']}</div><div class='text'>${messageTag['contenu']}</div></div></div></a><br>`
         }
         message += `<div id='${item['id']}' class='last ${item['contenu'] != del_message ? 'bodymessage' : ''}'>${item['contenu']}<br><br><div class='heure last'>${item['heure']}`
@@ -173,14 +220,13 @@ async function ShowMessages(){
         elt.style.cursor = 'pointer'
     })
     document.querySelectorAll('.delete').forEach(elt=>{
-        elt.addEventListener("click", async function(e){
+        elt.addEventListener("click", (e) =>{
             e.preventDefault()
             let id = +elt.parentElement.parentElement.id
-            await getData()
             let message = data["messages"].find(item => item['id'] == id)
             message['contenu'] = del_message
             message['tag'] = 0
-            await setData(data)
+            datas = data
             ShowMessages()
         })
     })
@@ -230,11 +276,8 @@ document.querySelector('#discussions').addEventListener('click', () => {
 if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
 { 
     //Accès aux données des utilisateurs
-    async function getUser(){
-        await getData()
-        user = data["users"].find(user => user["id"] == user_id)
-    }
-    getUser()
+    datas = data
+    const user = datas["users"].find(user => user["id"] == user_id)
     
     //Adaptation de la page à la taille de l'écran
     Desktop(mediaStyle.matches)
@@ -257,14 +300,13 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
         Desktop(mediaStyle.matches)
         display()
     })
-    document.querySelector('#send').addEventListener('click', async(e)=>{
+    document.querySelector('#send').addEventListener('click', (e)=>{
         e.preventDefault()
         let date = new Date()
         let message = htmlspecialchars(document.querySelector('#text').value.trim())
-        await getData()
         if (receiver && message.length > 0) {
             data['messages'].push({
-                "id" : data["messages"].length + 1,
+                "id" : datas["messages"].length + 1,
                 "id_sender" : user['id'],
                 "id_receiver" : receiver['id'],
                 "contenu" : message,
@@ -273,13 +315,12 @@ if (localStorage.hasOwnProperty('STANJAPAP_Essentials'))
                 "vu" : false,
                 "tag" : tag ? +tag : 0
             })
-            await setData(data)
+            datas = data
             document.querySelector('#text').value = ""
             tag = undefined
+            ShowMessages()
         }
-    })
-    //event_t.addEventListener('change', ShowMessages)
-    
+    })    
     //Début
     display()
 }
@@ -323,15 +364,14 @@ async function hashPassword(pass) {
 }
 
 async function verify(pass, dbpass){
-    let hash = await hashPassword(pass)
+    hash = await hashPassword(pass)
     if (hash !== dbpass) {
         displayerror('Mauvais mot de passe')
         return false
     }else return true
 }
 
-async function check_if_exists(name){
-    await getData()
+function check_if_exists(name){
     let result = data['users'].find(elt => elt['pseudo'] === name)
     if (!result) {
         displayerror('Cet utilisateur n\'existe pas')
@@ -374,7 +414,6 @@ async function signup(name, pass) {
     if (check_if_exists(name)) return
     let password
     if (!(password = await hashPassword(pass))) return
-    await getData()
     data['users'].push({
         "id" : data["users"].length + 1,
         "pseudo" : name,
@@ -383,7 +422,6 @@ async function signup(name, pass) {
         "last_id" : 0,
         "profil" : `assets/profiles/Nopicture.png`
     })
-    await setData(data)
     reset_form()
     localStorage.setItem('STANJAPAP_Essentials', (data["users"].length).toString())
     index_(localStorage.hasOwnProperty('STANJAPAP_Essentials'))

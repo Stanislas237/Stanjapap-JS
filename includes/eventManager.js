@@ -1,1 +1,0 @@
-export var event_t = new EventTarget()
