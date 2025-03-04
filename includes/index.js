@@ -1,81 +1,6 @@
-let data = {
-    "messages" : [
-        {
-            "id" : 1,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:31",
-            "date" : "17/12/2023",
-            "contenu" : "Bonjour admin je suis nouveau..",
-            "vu" : true,
-            "tag" : 0
-        },
-        {
-            "id" : 2,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:32",
-            "date" : "17/12/2023",
-            "contenu" : "Comment allez-vous ?",
-            "vu" : true,
-            "tag" : 0
-        },
-        {
-            "id" : 3,
-            "id_sender" : 1,
-            "id_receiver" : 2,
-            "heure" : "21:32",
-            "date" : "17/12/2023",
-            "contenu" : "Je vais bien et vous ?",
-            "vu" : true,
-            "tag" : 2
-        },
-        {
-            "id" : 4,
-            "id_sender" : 2,
-            "id_receiver" : 1,
-            "heure" : "21:35",
-            "date" : "17/12/2023",
-            "contenu" : "Super 😁",
-            "vu" : true,
-            "tag" : 3
-        }
-    ],
-    "users" : [
-        {
-            "id" : 1,
-            "pseudo" : "Admin",
-            "pass" : "wcIksDzZvHtqhtd/XazkAZF2bEhc1V3EjK+ayHMzXW8=",
-            "id_ami" : [2, 3],
-            "last_id" : 3,
-            "profil" : "assets/profiles/1.png"
-        },
-        {
-            "id" : 2,
-            "pseudo" : "Stan_Kamga",
-            "pass" : "ljSub8TKdW9/1/4iACrEw8sBJ6iIpsLwZqpvPRKe8gc=",
-            "id_ami" : [1],
-            "last_id" : 3,
-            "profil" : "assets/profiles/2.png"
-        },
-        {
-            "id" : 3,
-            "pseudo" : "Hernandez",
-            "pass" : "fdM+Tr8yfudubde/nvEmAVKhHlxNgru1CQm9DtuLeng=",
-            "id_ami" : [1],
-            "last_id" : 0,
-            "profil" : "assets/profiles/3.png"
-        }
-    ]
+let user = {
+    "id" : null
 }
-
-let index = 0
-
-// *************************************** index.js ***************************************************
-
-let datas
-let user_id
-let user
 let receiver
 let tag
 let left_style = "block"
@@ -83,34 +8,19 @@ let right_style = "none"
 
 const brands = document.querySelectorAll('.brand')
 
-//Redirection de l'utilisateur
-function index_(test='a'){
-    let forms = document.querySelectorAll("form")
-    if (typeof test === "boolean")
-    {
-        index = 0
-        forms[0].style.display = test ? 'flex' : 'none'
-        forms[1].style.display = test ? 'none' : 'block'
-        forms[2].style.display = 'none'
-        if (test){
-            user_id = localStorage.getItem('STANJAPAP_Essentials')
-            user = data["users"].find(item => item["id"] == user_id)
-        }
-    }else{
-        index = 1
-        forms[0].style.display = 'none'
-        forms[1].style.display = 'none'
-        forms[2].style.display = 'block'
-    }
-}    
+if (localStorage.hasOwnProperty(STANJAPAP_Essentials)){
+    let id = parseInt(Decode(localStorage.getItem('STANJAPAP_Essentials')))
+    if (!isNaN(id) && isFinite(id))
+        user["id"] = id
+    else window.location.href = "./login.html"
+}
+else window.location.href = "./login.html"
+
 
 //Mise en forme de la page
 function display(){
-    //Chercher les données de la base de données
-    datas = data
-
     //Affichage des amis
-    ShowFriends()
+    ShowFriends(getFriends(user["id"]))
     
     //Affichage des noms et tags
     brands[0].innerHTML = user["pseudo"]
@@ -355,12 +265,6 @@ function reset_form() {
     document.querySelector('#ps_input').value = ""
     document.querySelector('#pw_input').value = ""
     errors[index].textContent = ''
-}
-
-async function hashPassword(pass) {
-    const data = new TextEncoder().encode(pass)
-    const hash = await window.crypto.subtle.digest('SHA-256', data)
-    return btoa(String.fromCharCode(...new Uint8Array(hash)))
 }
 
 async function verify(pass, dbpass){
